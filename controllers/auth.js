@@ -7,7 +7,9 @@ const register = async (req, res) => {
   const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
     expiresIn: "30d",
   });
-  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { name: user.getName() }, token });
 };
 
 const login = async (req, res) => {
