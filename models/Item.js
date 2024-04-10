@@ -30,6 +30,7 @@ const ItemSchema = new mongoose.Schema(
         "succulents",
         "ferns",
         "vines",
+        "others",
       ],
       default: "others",
     },
