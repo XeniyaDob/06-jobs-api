@@ -32,7 +32,26 @@ const createItem = async (req, res) => {
 };
 
 const updateItem = async (req, res) => {
-  res.send("update plant");
+  const {
+    body: { name, price, type, description },
+    user: { userId },
+    params: { id: itemId },
+  } = req;
+
+  if (!name || !price || !description) {
+    throw new BadRequestError(
+      "Please provide all required values - name, price, description"
+    );
+  }
+  const item = await Item.findOneAndUpdate(
+    { _id: itemId, createdBy: userId },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!item) {
+    throw new NotFoundError(`No item with id ${itemId}`);
+  }
+  res.status(StatusCodes.OK).json({ item });
 };
 
 const deleteItem = async (req, res) => {
