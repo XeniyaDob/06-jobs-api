@@ -3,11 +3,24 @@ const { StatusCodes } = require("http-status-codes");
 const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllItems = async (req, res) => {
-  res.send("get all plants");
+  const items = await Item.find({ createdBy: req.user.userId }).sort(
+    "createdAt"
+  );
+  res.status(StatusCodes.OK).json({ items, count: items.length });
 };
 
 const getItem = async (req, res) => {
-  res.send("get plant");
+  const {
+    user: { userId },
+    params: { id: itemId },
+  } = req;
+
+  const item = await Item.findOne({ _id: itemId, createdBy: userId });
+
+  if (!item) {
+    throw new NotFoundError(`No plant item with id ${itemId}`);
+  }
+  res.status(StatusCodes.OK).json({ item });
 };
 
 const createItem = async (req, res) => {
