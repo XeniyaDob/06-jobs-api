@@ -33,7 +33,7 @@ const createItem = async (req, res) => {
 
 const updateItem = async (req, res) => {
   const {
-    body: { name, price, type, description },
+    body: { name, price, description },
     user: { userId },
     params: { id: itemId },
   } = req;
@@ -55,7 +55,20 @@ const updateItem = async (req, res) => {
 };
 
 const deleteItem = async (req, res) => {
-  res.send("delete plant");
+  const {
+    user: { userId },
+    params: { id: itemId },
+  } = req;
+
+  const item = await Item.findOneAndRemove({
+    _id: itemId,
+    createdBy: userId,
+  });
+
+  if (!item) {
+    throw new NotFoundError(`No item with id ${itemId}`);
+  }
+  res.status(StatusCodes.OK).send("Item deleted");
 };
 
 module.exports = {
