@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Swagger Plant nursery store - OpenAPI 3.0
+  description: |-
+    This is a sample Plant Nursery Server based on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). 
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://zero6-jobs-api-uoed.onrender.com/api/v1
+tags:
+- name: Auth
+  description: ''
+- name: Items
+  description: ''
+paths:
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register user
+      description: >-
+        This is a GET request and it is used to "get" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).
+
+
+        A successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data.
+      operationId: Registeruser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RegisteruserRequest'
+              - example:
+                  name: anna
+                  email: anna@gmail.com
+                  password: secretAnna
+            example:
+              name: anna
+              email: anna@gmail.com
+              password: secretAnna
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login user
+      description: >-
+        This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.
+
+
+        A successful POST request typically returns a `200 OK` or `201 Created` response code.
+      operationId: Loginuser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/LoginuserRequest'
+              - example:
+                  email: anna@gmail.com
+                  password: secret
+            example:
+              email: anna@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /items:
+    post:
+      tags:
+      - Items
+      summary: Create Single Item
+      operationId: CreateSingleItem
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateSingleItemRequest'
+              - example:
+                  name: Pine
+                  price: 3
+                  description: Lorem
+            example:
+              name: Pine
+              price: 3
+              description: Lorem
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - Items
+      summary: Get All Items
+      operationId: GetAllItems
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /items/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The item ID
+    get:
+      tags:
+      - Items
+      summary: Get Single Item
+      operationId: GetSingleItem
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  
+    patch:
+      tags:
+      - Items
+      summary: Update Single Item
+      operationId: UpdateSingleItem
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UpdateSingleItemRequest'
+              - example:
+                  name: Pine
+                  price: 3
+                  description: Lorem
+            example:
+              name: Pine
+              price: 3
+              description: Lorem
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  
+    delete:
+      tags:
+      - Items
+      summary: Delete a Item
+      operationId: DeleteaItem
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    RegisteruserRequest:
+      title: RegisteruserRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: anna
+        email: anna@gmail.com
+        password: secretAnna
+    LoginuserRequest:
+      title: LoginuserRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: anna@gmail.com
+        password: secret
+    CreateSingleItemRequest:
+      title: CreateSingleItemRequest
+      required:
+      - name
+      - price
+      - description
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string          
+      example:
+        name: Jasmine
+        price: 10
+        description: Lorem
+    UpdateSingleItemRequest:
+      title: UpdateSingleItemRequest
+      required:
+      - name
+      - price
+      - description
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string          
+      example:
+        name: Jasmine 2
+        price: 20
+        description: Lorem
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
