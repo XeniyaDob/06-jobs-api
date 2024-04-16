@@ -41,9 +41,10 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
-app.get("/", (req, res) => {
-  res.send('<h1>Plants API</h1><a href="/api-docs">Swagger Docs</a>');
-});
+// app.get("/", (req, res) => {
+//   res.send('<h1>Plants API</h1><a href="/api-docs">Swagger Docs</a>');
+// });
+app.use(express.static("public"));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 
