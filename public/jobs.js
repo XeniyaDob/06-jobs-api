@@ -16,13 +16,13 @@ let jobsTableHeader = null;
 export const handleJobs = () => {
   jobsDiv = document.getElementById("jobs");
   const logoff = document.getElementById("logoff");
-  const addJob = document.getElementById("add-job");
+  const addItem = document.getElementById("add-item");
   jobsTable = document.getElementById("jobs-table");
   jobsTableHeader = document.getElementById("jobs-table-header");
 
   jobsDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
-      if (e.target === addJob) {
+      if (e.target === addItem) {
         showAddEdit(null);
       } else if (e.target === logoff) {
         setToken(null);
@@ -37,6 +37,6 @@ export const handleJobs = () => {
   });
 };
 
-export const showJobs = async () => {
+export const showItems = async () => {
   setDiv(jobsDiv);
 };
