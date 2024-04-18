@@ -8,7 +8,7 @@ let status = null;
 let addingItem = null;
 
 export const handleAddEdit = () => {
-  addEditDiv = document.getElementById("edit-job");
+  addEditDiv = document.getElementById("edit-item");
   plantName = document.getElementById("plant");
   price = document.getElementById("price");
   status = document.getElementById("status");
@@ -22,6 +22,10 @@ export const handleAddEdit = () => {
 
         let method = "POST";
         let url = "/api/v1/items";
+        if (addingItem.textContent === "update") {
+          method = "PATCH";
+          url = `/api/v1/items/${addEditDiv.dataset.id}`;
+        }
         try {
           const response = await fetch(url, {
             method: method,
@@ -38,13 +42,18 @@ export const handleAddEdit = () => {
           });
 
           const data = await response.json();
-          if (response.status === 201) {
-            // 201 indicates a successful create
-            message.textContent = "The plant item was created.";
-            (plantName.value = ""),
-              (price.value = ""),
-              (description.value = ""),
-              (type.value = "others");
+          if (response.status === 200 || response.status === 201) {
+            if (response.status === 200) {
+              // a 200 is expected for a successful update
+              message.textContent = "The plant entry was updated.";
+            } else {
+              // a 201 is expected for a successful create
+              message.textContent = "The plant entry was created.";
+            }
+            plantName.value = "";
+            price.value = "";
+            description.value = "";
+            type.value = "others";
             showItems();
           } else {
             message.textContent = data.msg;
@@ -63,7 +72,50 @@ export const handleAddEdit = () => {
   });
 };
 
-export const showAddEdit = (job) => {
-  message.textContent = "";
-  setDiv(addEditDiv);
+export const showAddEdit = async (itemId) => {
+  if (!itemId) {
+    plantName.value = "";
+    price.value = "";
+    description.value = "";
+    type.value = "others";
+    addingItem.textContent = "add";
+    message.textContent = "";
+
+    setDiv(addEditDiv);
+  } else {
+    enableInput(false);
+
+    try {
+      const response = await fetch(`/api/v1/items/${itemId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (response.status === 200) {
+        plant.value = data.item.name;
+        price.value = data.item.price;
+        description.value = data.item.description;
+        type.value = data.item.type;
+        addingItem.textContent = "update";
+        message.textContent = "";
+        addEditDiv.dataset.id = itemId;
+
+        setDiv(addEditDiv);
+      } else {
+        // might happen if the list has been updated since last display
+        message.textContent = "The plant entry was not found";
+        showItems();
+      }
+    } catch (err) {
+      console.log(err);
+      message.textContent = "A communications error has occurred.";
+      showItems();
+    }
+
+    enableInput(true);
+  }
 };

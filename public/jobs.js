@@ -24,6 +24,9 @@ export const handleJobs = () => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addItem) {
         showAddEdit(null);
+      } else if (e.target.classList.contains("editButton")) {
+        message.textContent = "";
+        showAddEdit(e.target.dataset.id);
       } else if (e.target === logoff) {
         setToken(null);
 
