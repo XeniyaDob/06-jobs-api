@@ -119,3 +119,31 @@ export const showAddEdit = async (itemId) => {
     enableInput(true);
   }
 };
+
+export const showDelete = async (itemId) => {
+  enableInput(false);
+  try {
+    const response = await fetch(`/api/v1/items/${itemId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    if (response.status === 200) {
+      addingItem.textContent = "delete";
+      message.textContent = data.msg;
+      showItems();
+    } else {
+      // might happen if the list has been updated since last display
+      message.textContent = "The plant entry was not found";
+      showItems();
+    }
+  } catch (err) {
+    console.log(err);
+    message.textContent = "A communications error has occurred.";
+    showItems();
+  }
+  enableInput(true);
+};

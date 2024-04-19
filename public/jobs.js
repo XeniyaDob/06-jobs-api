@@ -7,7 +7,7 @@ import {
   enableInput,
 } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
-import { showAddEdit } from "./addEdit.js";
+import { showAddEdit, showDelete } from "./addEdit.js";
 
 let jobsDiv = null;
 let itemsTable = null;
@@ -27,6 +27,9 @@ export const handleJobs = () => {
       } else if (e.target.classList.contains("editButton")) {
         message.textContent = "";
         showAddEdit(e.target.dataset.id);
+      } else if (e.target.classList.contains("deleteButton")) {
+        message.textContent = "";
+        showDelete(e.target.dataset.id);
       } else if (e.target === logoff) {
         setToken(null);
 
