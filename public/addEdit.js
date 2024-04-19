@@ -4,14 +4,16 @@ import { showItems } from "./jobs.js";
 let addEditDiv = null;
 let plantName = null;
 let price = null;
-let status = null;
+let description = null;
+let type = null;
 let addingItem = null;
 
 export const handleAddEdit = () => {
   addEditDiv = document.getElementById("edit-item");
   plantName = document.getElementById("plant");
   price = document.getElementById("price");
-  status = document.getElementById("status");
+  description = document.getElementById("description");
+  type = document.getElementById("type");
   addingItem = document.getElementById("adding-item");
   const editCancel = document.getElementById("edit-cancel");
 
