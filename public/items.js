@@ -9,18 +9,18 @@ import {
 import { showLoginRegister } from "./loginRegister.js";
 import { showAddEdit, showDelete } from "./addEdit.js";
 
-let jobsDiv = null;
+let itemsDiv = null;
 let itemsTable = null;
 let itemsTableHeader = null;
 
-export const handleJobs = () => {
-  jobsDiv = document.getElementById("jobs");
+export const handleItems = () => {
+  itemsDiv = document.getElementById("items");
   const logoff = document.getElementById("logoff");
   const addItem = document.getElementById("add-item");
   itemsTable = document.getElementById("items-table");
   itemsTableHeader = document.getElementById("items-table-header");
 
-  jobsDiv.addEventListener("click", (e) => {
+  itemsDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addItem) {
         showAddEdit(null);
@@ -87,5 +87,5 @@ export const showItems = async () => {
     message.textContent = "A communication error occurred.";
   }
   enableInput(true);
-  setDiv(jobsDiv);
+  setDiv(itemsDiv);
 };

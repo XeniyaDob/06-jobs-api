@@ -1,5 +1,5 @@
 import { enableInput, inputEnabled, message, setDiv, token } from "./index.js";
-import { showItems } from "./jobs.js";
+import { showItems } from "./items.js";
 
 let addEditDiv = null;
 let plantName = null;
